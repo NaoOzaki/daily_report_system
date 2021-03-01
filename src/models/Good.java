@@ -1,6 +1,5 @@
 package models;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -9,33 +8,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-@Table(name = "reports")
+@Table(name = "goods")
 @NamedQueries({
     @NamedQuery(
-            name = "getAllReports",
-            query = "SELECT r FROM Report AS r ORDER BY r.id DESC"
+            name = "getAllGoods",
+            query = "SELECT g FROM Good AS g ORDER BY g.id DESC"
     ),
     @NamedQuery(
-            name = "getReportsCount",
-            query = "SELECT COUNT(r) FROM Report AS r"
+            name = "getReportsGoods",
+            query = "SELECT g FROM Good AS g WHERE g.report = :report ORDER BY g.id DESC"
     ),
     @NamedQuery(
-            name = "getMyAllReports",
-            query = "SELECT r FROM Report AS r WHERE r.employee = :employee ORDER BY r.id DESC"
+            name = "getReportsGoodsCount",
+            query = "SELECT COUNT(g) FROM Good AS g WHERE g.report = :report"
     ),
     @NamedQuery(
-            name = "getMyReportsCount",
-            query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :employee"
+            name = "getMyReportsGoodsCount",
+            query = "SELECT COUNT(g) FROM Good AS g WHERE g.report = :report AND g.employee = :employee"
     )
 })
 @Entity
-public class Report {
+public class Good {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,18 +43,9 @@ public class Report {
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @Column(name = "report_date", nullable = false)
-    private Date report_date;
-
-    @Column(name = "title", length = 255, nullable = false)
-    private String title;
-
-    @Lob
-    @Column(name = "content", nullable = false)
-    private String content;
-
-    @Column(name = "good_count", nullable = false)
-    private Integer good_count;
+    @ManyToOne
+    @JoinColumn(name = "report_id", nullable = false)
+    private Report report;
 
     @Column(name = "created_at", nullable = false)
     private Timestamp created_at;
@@ -80,36 +69,12 @@ public class Report {
         this.employee = employee;
     }
 
-    public Date getReport_date() {
-        return report_date;
+    public Report getReport() {
+        return report;
     }
 
-    public void setReport_date(Date report_date) {
-        this.report_date = report_date;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getGood_count() {
-        return good_count;
-    }
-
-    public void setGood_count(Integer good_count) {
-        this.good_count = good_count;
+    public void setReport(Report report) {
+        this.report = report;
     }
 
     public Timestamp getCreated_at() {

@@ -34,10 +34,12 @@ public class EmployeesIndexServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
 
-        int page = 1;
+        int page;
         try{
             page = Integer.parseInt(request.getParameter("page"));
-        } catch(NumberFormatException e){}
+        } catch(Exception e) {
+            page = 1;
+        }
         List<Employee> employees = em.createNamedQuery("getAllEmployees", Employee.class)
                                      .setFirstResult(15 * (page - 1))
                                      .setMaxResults(15)
