@@ -56,11 +56,17 @@
                     <c:otherwise>
                         <c:choose>
                             <c:when test="${my_reports_goods_count == 0 }">
-                        <p><a href="<c:url value="/goods/create?id=${report.id}" />">この日報にいいねする</a></p>
+                                <p><a href="<c:url value="/goods/create?id=${report.id}" />">この日報にいいねする</a></p>
                             </c:when>
                             <c:otherwise></c:otherwise>
                         </c:choose>
                     </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${sessionScope.login_employee.id != report.employee.id and check_follows_employees == 0 }">
+                        <p><a href="<c:url value="/follows/create?id=${report.employee.id}" />">この日報の作成者をフォローする</a></p>
+                    </c:when>
+                    <c:otherwise></c:otherwise>
                 </c:choose>
             </c:when>
             <c:otherwise>

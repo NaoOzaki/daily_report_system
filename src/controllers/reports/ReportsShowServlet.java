@@ -34,7 +34,9 @@ public class ReportsShowServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
 
-        Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
+        Report r = em.find(Report.class, Integer.parseInt(request.getParameter("report_id")));
+
+        Employee e = em.find(Employee.class, Integer.parseInt(request.getParameter("follow_employee_id")));
 
         Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
 
@@ -43,10 +45,16 @@ public class ReportsShowServlet extends HttpServlet {
                 .setParameter("employee", login_employee)
                 .getSingleResult();
 
+        long check_follows_employees = (long)em.createNamedQuery("checkFollowsEmployees", Long.class)
+                .setParameter("employee", login_employee)
+                .setParameter("follow_employee", e)
+                .getSingleResult();
+
         em.close();
 
         request.setAttribute("report", r);
         request.setAttribute("my_reports_goods_count", my_reports_goods_count);
+        request.setAttribute("check_follows_employees", check_follows_employees);
         request.setAttribute("_token", request.getSession().getId());
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/show.jsp");

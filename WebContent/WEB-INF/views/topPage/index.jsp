@@ -32,7 +32,7 @@
                                 <td class="report_good_count"><a href="<c:url value='/goods/index?id=${report.id }' />">${report.good_count}</a></td>
                             </c:otherwise>
                         </c:choose>
-                        <td class="report_action"><a href="<c:url value='/reports/show?id=${report.id }' />">詳細を見る</a></td>
+                        <td class="report_action"><a href="<c:url value='/reports/show?report_id=${report.id }&follow_employee_id=${report.employee.id }' />">詳細を見る</a></td>
                     </tr>
                 </c:forEach>
             </tbody>
