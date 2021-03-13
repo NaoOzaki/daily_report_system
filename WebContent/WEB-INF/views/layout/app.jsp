@@ -19,6 +19,8 @@
                         </c:if>
                         <a href="<c:url value='/reports/index' />">日報管理</a>&nbsp;
                         <a href="<c:url value='/follows/index' />">タイムライン</a>&nbsp;
+                        <a href="<c:url value='/follows/follows_show' />">フォロー</a>&nbsp;
+                        <a href="<c:url value='/follows/followers_show' />">フォロワー</a>&nbsp;
                     </c:if>
                 </div>
                 <c:if test="${sessionScope.login_employee != null }">
